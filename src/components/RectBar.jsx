@@ -3,10 +3,9 @@ import { styled } from "styled-components";
 
 const GreenTube = styled.div`
   position: absolute;
-  top: 0;
 `;
 
-const RectBar = ({ height, right = "-100px" }) => {
+const RectBar = ({ height, right = "-100px", top, bottom }) => {
   return (
     <GreenTube
       style={{
@@ -14,6 +13,8 @@ const RectBar = ({ height, right = "-100px" }) => {
         height: `${height}px`,
         background: "green",
         right,
+        top,
+        bottom,
       }}
     ></GreenTube>
   );

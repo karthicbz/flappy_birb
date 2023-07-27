@@ -58,8 +58,20 @@ function App() {
       className="canvas"
       onClick={() => startMovingTube(setGreenTubePosOne, setIntervalIdOne)}
     >
-      <RectBar height={greenTubeOneHeight} right={greenTubePosOne} />
-      <RectBar height={greenTubeTwoHeight} right={greenTubePosTwo} />
+      <RectBar height={greenTubeOneHeight} right={greenTubePosOne} top="0" />
+      <RectBar height={greenTubeTwoHeight} right={greenTubePosTwo} top="0" />
+
+      <RectBar
+        height={700 - greenTubeOneHeight}
+        right={greenTubePosOne}
+        bottom="0"
+      />
+
+      <RectBar
+        height={700 - greenTubeTwoHeight}
+        right={greenTubePosTwo}
+        bottom="0"
+      />
     </PlayArea>
   );
 }
