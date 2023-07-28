@@ -57,10 +57,12 @@ function App() {
 
       if (playerAltitude > 750 - greenTubeOneHeight) {
         console.log("smashed on top one");
+        setGameStart(false);
       }
 
       if (playerAltitude < bottomGreenTubeOneHeight) {
         console.log("smashed on bottom one");
+        setGameStart(false);
       }
     }
 
@@ -70,13 +72,23 @@ function App() {
 
       if (playerAltitude > 750 - greenTubeTwoHeight) {
         console.log("smashed on top two");
+        setGameStart(false);
       }
 
       if (playerAltitude < bottomGreenTubeTwoHeight) {
         console.log("smashed on bottom two");
+        setGameStart(false);
       }
     }
   }, [playerAltitude]);
+
+  //this useEffect stop moving greentubes when player smashed into greentubes
+  useEffect(() => {
+    if (gameStart === false) {
+      clearInterval(intervalIdOne);
+      clearInterval(intervalIdTwo);
+    }
+  }, [gameStart]);
 
   function startMovingTube(setGreenTubePos, setIntervalId) {
     const interval = setInterval(() => {
@@ -91,7 +103,7 @@ function App() {
   }
 
   function increasePlayerAltitude() {
-    setPlayerAltitude((prevAltitude) => prevAltitude + 150);
+    setPlayerAltitude((prevAltitude) => prevAltitude + 180);
   }
 
   function startGame() {
