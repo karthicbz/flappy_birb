@@ -21,10 +21,9 @@ function App() {
   const [greenTubeTwoHeight, setGreenTubeTwoHeight] = useState(randNumber());
   const [playerAltitude, setPlayerAltitude] = useState(400);
   const [gameStart, setGameStart] = useState(false);
-  const topGreenTubeOneRef = useRef();
-  const topGreenTubeTwoRef = useRef();
   const bottomGreenTubeOneRef = useRef();
   const bottomGreenTubeTwoRef = useRef();
+  const scoreRef = useRef(0);
 
   //this use effect will move green tubes, reset it position and make it wait for next move
   useEffect(() => {
@@ -41,10 +40,12 @@ function App() {
     }
 
     if (greenTubePosOne === 250) {
+      scoreRef.current += 1;
       startMovingTube(setGreenTubePosTwo, setIntervalIdTwo);
     }
 
     if (greenTubePosTwo === 250) {
+      scoreRef.current += 1;
       startMovingTube(setGreenTubePosOne, setIntervalIdOne);
     }
   }, [greenTubePosOne, greenTubePosTwo]);
@@ -125,18 +126,8 @@ function App() {
 
   return (
     <PlayArea className="canvas" onClick={increasePlayerAltitude}>
-      <RectBar
-        height={greenTubeOneHeight}
-        right={greenTubePosOne}
-        top="0"
-        greenTubeRef={topGreenTubeOneRef}
-      />
-      <RectBar
-        height={greenTubeTwoHeight}
-        right={greenTubePosTwo}
-        top="0"
-        greenTubeRef={topGreenTubeTwoRef}
-      />
+      <RectBar height={greenTubeOneHeight} right={greenTubePosOne} top="0" />
+      <RectBar height={greenTubeTwoHeight} right={greenTubePosTwo} top="0" />
 
       <RectBar
         height={500 - greenTubeOneHeight}
@@ -152,6 +143,17 @@ function App() {
         greenTubeRef={bottomGreenTubeTwoRef}
       />
       <Player bottom={playerAltitude} />
+      <p
+        className="score"
+        style={{
+          fontSize: "4rem",
+          position: "absolute",
+          top: 0,
+          left: "calc(500px - 50%)",
+        }}
+      >
+        {scoreRef.current}
+      </p>
       <button onClick={startGame}>Start</button>
     </PlayArea>
   );
