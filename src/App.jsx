@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { useEffect, useState, useRef } from "react";
 import Player from "./components/Player";
 import ReplayScreen from "./components/ReplayScreen";
+import StartScreen from "./components/StartScreen";
 
 const PlayArea = styled.div`
   max-width: 500px;
@@ -11,6 +12,7 @@ const PlayArea = styled.div`
   background-color: white;
   box-shadow: 1px 1px 8px 1px gray;
   position: relative;
+  margin: 0 auto;
 `;
 
 function App() {
@@ -26,16 +28,21 @@ function App() {
   const bottomGreenTubeTwoRef = useRef();
   const scoreRef = useRef(0);
   const [replayDisplay, setReplayDisplay] = useState("none");
+  const [tubeOneColor, setTubeOneColor] = useState("transparent");
+  const [tubeTwoColor, setTubeTwoColor] = useState("transparent");
+  const [startScreenDisplay, setStartScreenDisplay] = useState("flex");
 
   //this use effect will move green tubes, reset it position and make it wait for next move
   useEffect(() => {
-    if (greenTubePosOne === 500) {
+    if (greenTubePosOne === 400) {
+      setTubeOneColor("transparent");
       clearInterval(intervalIdOne);
       setGreenTubePosOne(-100);
       setGreenTubeOneHeight(randNumber());
     }
 
-    if (greenTubePosTwo === 500) {
+    if (greenTubePosTwo === 400) {
+      setTubeTwoColor("transparent");
       clearInterval(intervalIdTwo);
       setGreenTubePosTwo(-100);
       setGreenTubeTwoHeight(randNumber());
@@ -49,6 +56,14 @@ function App() {
     if (greenTubePosTwo === 250) {
       scoreRef.current += 1;
       startMovingTube(setGreenTubePosOne, setIntervalIdOne);
+    }
+
+    if (greenTubePosOne === 0) {
+      setTubeOneColor("green");
+    }
+
+    if (greenTubePosTwo === 0) {
+      setTubeTwoColor("green");
     }
   }, [greenTubePosOne, greenTubePosTwo]);
 
@@ -100,7 +115,7 @@ function App() {
   function startMovingTube(setGreenTubePos, setIntervalId) {
     const interval = setInterval(() => {
       setGreenTubePos((prevPos) => prevPos + 50);
-    }, 800);
+    }, 600);
 
     setIntervalId(interval);
   }
@@ -114,6 +129,7 @@ function App() {
   }
 
   function startGame() {
+    setStartScreenDisplay("none");
     setGameStart(true);
     startMovingTube(setGreenTubePosOne, setIntervalIdOne);
   }
@@ -124,6 +140,8 @@ function App() {
     setGreenTubePosOne(-100);
     setGreenTubePosTwo(-100);
     setReplayDisplay("none");
+    setTubeOneColor("transparent");
+    setTubeTwoColor("transparent");
     e.preventDefault();
     e.stopPropagation();
     startGame();
@@ -133,7 +151,7 @@ function App() {
     if (gameStart) {
       if (playerAltitude !== 0) {
         const interval = setInterval(() => {
-          setPlayerAltitude((prevAltitude) => prevAltitude - 10);
+          setPlayerAltitude((prevAltitude) => prevAltitude - 20);
         }, 50);
 
         return () => clearInterval(interval);
@@ -143,14 +161,25 @@ function App() {
 
   return (
     <PlayArea className="canvas" onClick={increasePlayerAltitude}>
-      <RectBar height={greenTubeOneHeight} right={greenTubePosOne} top="0" />
-      <RectBar height={greenTubeTwoHeight} right={greenTubePosTwo} top="0" />
+      <RectBar
+        height={greenTubeOneHeight}
+        right={greenTubePosOne}
+        top="0"
+        backgroundColor={tubeOneColor}
+      />
+      <RectBar
+        height={greenTubeTwoHeight}
+        right={greenTubePosTwo}
+        top="0"
+        backgroundColor={tubeTwoColor}
+      />
 
       <RectBar
         height={500 - greenTubeOneHeight}
         right={greenTubePosOne}
         bottom="0"
         greenTubeRef={bottomGreenTubeOneRef}
+        backgroundColor={tubeOneColor}
       />
 
       <RectBar
@@ -158,6 +187,7 @@ function App() {
         right={greenTubePosTwo}
         bottom="0"
         greenTubeRef={bottomGreenTubeTwoRef}
+        backgroundColor={tubeTwoColor}
       />
       <Player bottom={playerAltitude} />
       <p
@@ -166,12 +196,17 @@ function App() {
           fontSize: "4rem",
           position: "absolute",
           top: 0,
-          left: "calc(500px - 50%)",
+          left: "calc((500px - 4rem) - 50%)",
+          fontFamily: "'Press Start 2P', cursive",
         }}
       >
         {scoreRef.current}
       </p>
-      <button onClick={startGame}>Start</button>
+      {/* <button
+        onClick={startGame}
+        Start
+      </button> */}
+      <StartScreen displayValue={startScreenDisplay} startGame={startGame} />
       <ReplayScreen
         displayValue={replayDisplay}
         score={scoreRef.current}

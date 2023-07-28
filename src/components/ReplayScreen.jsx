@@ -1,4 +1,17 @@
 import React from "react";
+import styled from "styled-components";
+
+export const Button = styled.button`
+  padding: 8px;
+  border: 3px solid orange;
+`;
+
+export const FlexDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+`;
 
 const ReplayScreen = ({ displayValue, score, replayGame }) => {
   return (
@@ -16,10 +29,14 @@ const ReplayScreen = ({ displayValue, score, replayGame }) => {
         zIndex: 10,
       }}
     >
-      <div>
-        <p>{score}</p>
-        <button onClick={replayGame}>Replay</button>
-      </div>
+      <FlexDiv>
+        <p
+          style={{ fontSize: "4rem", fontFamily: "'Press Start 2P', cursive" }}
+        >
+          {score}
+        </p>
+        <Button onClick={replayGame}>Replay</Button>
+      </FlexDiv>
     </div>
   );
 };

@@ -5,17 +5,24 @@ const GreenTube = styled.div`
   position: absolute;
 `;
 
-const RectBar = ({ height, right = "-100px", top, bottom, greenTubeRef }) => {
+const RectBar = ({
+  height,
+  right = "-100px",
+  top,
+  bottom,
+  greenTubeRef,
+  backgroundColor,
+}) => {
   return (
     <GreenTube
       style={{
         width: "100px",
         height: `${height}px`,
-        background: "green",
+        background: backgroundColor,
         right,
         top,
         bottom,
-        transition: "right ease .8s",
+        transition: "right ease .8s, background ease 0.1s",
       }}
       ref={greenTubeRef}
     ></GreenTube>
