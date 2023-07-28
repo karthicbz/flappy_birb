@@ -15,6 +15,7 @@ const RectBar = ({ height, right = "-100px", top, bottom, greenTubeRef }) => {
         right,
         top,
         bottom,
+        transition: "right ease .8s",
       }}
       ref={greenTubeRef}
     ></GreenTube>

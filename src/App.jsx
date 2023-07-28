@@ -3,6 +3,7 @@ import "./App.css";
 import styled from "styled-components";
 import { useEffect, useState, useRef } from "react";
 import Player from "./components/Player";
+import ReplayScreen from "./components/ReplayScreen";
 
 const PlayArea = styled.div`
   max-width: 500px;
@@ -24,6 +25,7 @@ function App() {
   const bottomGreenTubeOneRef = useRef();
   const bottomGreenTubeTwoRef = useRef();
   const scoreRef = useRef(0);
+  const [replayDisplay, setReplayDisplay] = useState("none");
 
   //this use effect will move green tubes, reset it position and make it wait for next move
   useEffect(() => {
@@ -59,11 +61,13 @@ function App() {
       if (playerAltitude > 750 - greenTubeOneHeight) {
         console.log("smashed on top one");
         setGameStart(false);
+        setReplayDisplay("flex");
       }
 
       if (playerAltitude < bottomGreenTubeOneHeight) {
         console.log("smashed on bottom one");
         setGameStart(false);
+        setReplayDisplay("flex");
       }
     }
 
@@ -74,11 +78,13 @@ function App() {
       if (playerAltitude > 750 - greenTubeTwoHeight) {
         console.log("smashed on top two");
         setGameStart(false);
+        setReplayDisplay("flex");
       }
 
       if (playerAltitude < bottomGreenTubeTwoHeight) {
         console.log("smashed on bottom two");
         setGameStart(false);
+        setReplayDisplay("flex");
       }
     }
   }, [playerAltitude]);
@@ -94,7 +100,7 @@ function App() {
   function startMovingTube(setGreenTubePos, setIntervalId) {
     const interval = setInterval(() => {
       setGreenTubePos((prevPos) => prevPos + 50);
-    }, 1000);
+    }, 800);
 
     setIntervalId(interval);
   }
@@ -110,6 +116,17 @@ function App() {
   function startGame() {
     setGameStart(true);
     startMovingTube(setGreenTubePosOne, setIntervalIdOne);
+  }
+
+  function replayGame(e) {
+    scoreRef.current = 0;
+    setPlayerAltitude(400);
+    setGreenTubePosOne(-100);
+    setGreenTubePosTwo(-100);
+    setReplayDisplay("none");
+    e.preventDefault();
+    e.stopPropagation();
+    startGame();
   }
 
   useEffect(() => {
@@ -155,6 +172,11 @@ function App() {
         {scoreRef.current}
       </p>
       <button onClick={startGame}>Start</button>
+      <ReplayScreen
+        displayValue={replayDisplay}
+        score={scoreRef.current}
+        replayGame={replayGame}
+      />
     </PlayArea>
   );
 }

@@ -7,6 +7,7 @@ const PlayerDiv = styled.div`
   background-color: blue;
   position: absolute;
   /* left: calc((500px - 80px) - 50%); */
+  transition: bottom ease 0.1s;
 `;
 
 const Player = ({ bottom }) => {
