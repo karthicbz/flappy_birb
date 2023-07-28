@@ -1,7 +1,7 @@
 import RectBar from "./components/RectBar";
 import "./App.css";
 import styled from "styled-components";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Player from "./components/Player";
 
 const PlayArea = styled.div`
@@ -20,6 +20,11 @@ function App() {
   const [greenTubeOneHeight, setGreenTubeOneHeight] = useState(randNumber());
   const [greenTubeTwoHeight, setGreenTubeTwoHeight] = useState(randNumber());
   const [playerAltitude, setPlayerAltitude] = useState(400);
+  const [gameStart, setGameStart] = useState(false);
+  const topGreenTubeOneRef = useRef();
+  const topGreenTubeTwoRef = useRef();
+  const bottomGreenTubeOneRef = useRef();
+  const bottomGreenTubeTwoRef = useRef();
 
   useEffect(() => {
     if (greenTubePosOne === 500) {
@@ -41,6 +46,14 @@ function App() {
     if (greenTubePosTwo === 250) {
       startMovingTube(setGreenTubePosOne, setIntervalIdOne);
     }
+
+    if (greenTubePosOne > 210) {
+      const greenTubeOneHeight =
+        topGreenTubeOneRef.current.style.height.replace("px", "");
+      if (playerAltitude > 700 - greenTubeOneHeight) {
+        console.log("smashed on top one");
+      }
+    }
   }, [greenTubePosOne, greenTubePosTwo]);
 
   function startMovingTube(setGreenTubePos, setIntervalId) {
@@ -56,41 +69,56 @@ function App() {
   }
 
   function increasePlayerAltitude() {
-    setPlayerAltitude((prevAltitude) => prevAltitude + 100);
+    setPlayerAltitude((prevAltitude) => prevAltitude + 150);
+  }
+
+  function startGame() {
+    setGameStart(true);
+    startMovingTube(setGreenTubePosOne, setIntervalIdOne);
   }
 
   useEffect(() => {
-    if (playerAltitude !== 0) {
-      const interval = setInterval(() => {
-        setPlayerAltitude((prevAltitude) => prevAltitude - 20);
-      }, 100);
+    if (gameStart) {
+      if (playerAltitude !== 0) {
+        const interval = setInterval(() => {
+          setPlayerAltitude((prevAltitude) => prevAltitude - 10);
+        }, 50);
 
-      return () => clearInterval(interval);
+        return () => clearInterval(interval);
+      }
     }
   }, [playerAltitude]);
 
   return (
     <PlayArea className="canvas" onClick={increasePlayerAltitude}>
-      <RectBar height={greenTubeOneHeight} right={greenTubePosOne} top="0" />
-      <RectBar height={greenTubeTwoHeight} right={greenTubePosTwo} top="0" />
+      <RectBar
+        height={greenTubeOneHeight}
+        right={greenTubePosOne}
+        top="0"
+        greenTubeRef={topGreenTubeOneRef}
+      />
+      <RectBar
+        height={greenTubeTwoHeight}
+        right={greenTubePosTwo}
+        top="0"
+        greenTubeRef={topGreenTubeTwoRef}
+      />
 
       <RectBar
-        height={700 - greenTubeOneHeight}
+        height={500 - greenTubeOneHeight}
         right={greenTubePosOne}
         bottom="0"
+        greenTubeRef={bottomGreenTubeOneRef}
       />
 
       <RectBar
-        height={700 - greenTubeTwoHeight}
+        height={500 - greenTubeTwoHeight}
         right={greenTubePosTwo}
         bottom="0"
+        greenTubeRef={bottomGreenTubeTwoRef}
       />
       <Player bottom={playerAltitude} />
-      <button
-        onClick={() => startMovingTube(setGreenTubePosOne, setIntervalIdOne)}
-      >
-        Start
-      </button>
+      <button onClick={startGame}>Start</button>
     </PlayArea>
   );
 }

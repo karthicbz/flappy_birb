@@ -6,11 +6,15 @@ const PlayerDiv = styled.div`
   height: 30px;
   background-color: blue;
   position: absolute;
-  left: calc((500px - 80px) - 50%);
+  /* left: calc((500px - 80px) - 50%); */
 `;
 
 const Player = ({ bottom }) => {
-  return <PlayerDiv style={{ bottom }}></PlayerDiv>;
+  return (
+    <PlayerDiv
+      style={{ bottom, left: "calc((500px - 80px) - 50%)" }}
+    ></PlayerDiv>
+  );
 };
 
 export default Player;
