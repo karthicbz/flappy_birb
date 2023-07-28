@@ -26,6 +26,7 @@ function App() {
   const bottomGreenTubeOneRef = useRef();
   const bottomGreenTubeTwoRef = useRef();
 
+  //this use effect will move green tubes, reset it position and make it wait for next move
   useEffect(() => {
     if (greenTubePosOne === 500) {
       clearInterval(intervalIdOne);
@@ -46,15 +47,36 @@ function App() {
     if (greenTubePosTwo === 250) {
       startMovingTube(setGreenTubePosOne, setIntervalIdOne);
     }
+  }, [greenTubePosOne, greenTubePosTwo]);
 
-    if (greenTubePosOne > 210) {
-      const greenTubeOneHeight =
-        topGreenTubeOneRef.current.style.height.replace("px", "");
-      if (playerAltitude > 700 - greenTubeOneHeight) {
+  //this use effect check whether any crash happened
+  useEffect(() => {
+    if (greenTubePosOne >= 150 && greenTubePosOne < 350) {
+      const bottomGreenTubeOneHeight =
+        bottomGreenTubeOneRef.current.style.height.replace("px", "");
+
+      if (playerAltitude > 750 - greenTubeOneHeight) {
         console.log("smashed on top one");
       }
+
+      if (playerAltitude < bottomGreenTubeOneHeight) {
+        console.log("smashed on bottom one");
+      }
     }
-  }, [greenTubePosOne, greenTubePosTwo]);
+
+    if (greenTubePosTwo >= 150 && greenTubePosTwo < 350) {
+      const bottomGreenTubeTwoHeight =
+        bottomGreenTubeTwoRef.current.style.height.replace("px", "");
+
+      if (playerAltitude > 750 - greenTubeTwoHeight) {
+        console.log("smashed on top two");
+      }
+
+      if (playerAltitude < bottomGreenTubeTwoHeight) {
+        console.log("smashed on bottom two");
+      }
+    }
+  }, [playerAltitude]);
 
   function startMovingTube(setGreenTubePos, setIntervalId) {
     const interval = setInterval(() => {
