@@ -2,6 +2,7 @@ import RectBar from "./components/RectBar";
 import "./App.css";
 import styled from "styled-components";
 import { useEffect, useState } from "react";
+import Player from "./components/Player";
 
 const PlayArea = styled.div`
   max-width: 500px;
@@ -18,6 +19,7 @@ function App() {
   const [intervalIdTwo, setIntervalIdTwo] = useState(null);
   const [greenTubeOneHeight, setGreenTubeOneHeight] = useState(randNumber());
   const [greenTubeTwoHeight, setGreenTubeTwoHeight] = useState(randNumber());
+  const [playerAltitude, setPlayerAltitude] = useState(400);
 
   useEffect(() => {
     if (greenTubePosOne === 500) {
@@ -53,11 +55,22 @@ function App() {
     return Math.floor(Math.random() * 400);
   }
 
+  function increasePlayerAltitude() {
+    setPlayerAltitude((prevAltitude) => prevAltitude + 100);
+  }
+
+  useEffect(() => {
+    if (playerAltitude !== 0) {
+      const interval = setInterval(() => {
+        setPlayerAltitude((prevAltitude) => prevAltitude - 20);
+      }, 100);
+
+      return () => clearInterval(interval);
+    }
+  }, [playerAltitude]);
+
   return (
-    <PlayArea
-      className="canvas"
-      onClick={() => startMovingTube(setGreenTubePosOne, setIntervalIdOne)}
-    >
+    <PlayArea className="canvas" onClick={increasePlayerAltitude}>
       <RectBar height={greenTubeOneHeight} right={greenTubePosOne} top="0" />
       <RectBar height={greenTubeTwoHeight} right={greenTubePosTwo} top="0" />
 
@@ -72,6 +85,12 @@ function App() {
         right={greenTubePosTwo}
         bottom="0"
       />
+      <Player bottom={playerAltitude} />
+      <button
+        onClick={() => startMovingTube(setGreenTubePosOne, setIntervalIdOne)}
+      >
+        Start
+      </button>
     </PlayArea>
   );
 }
