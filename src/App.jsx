@@ -34,14 +34,14 @@ function App() {
 
   //this use effect will move green tubes, reset it position and make it wait for next move
   useEffect(() => {
-    if (greenTubePosOne === 400) {
+    if (greenTubePosOne === 450) {
       setTubeOneColor("transparent");
       clearInterval(intervalIdOne);
       setGreenTubePosOne(-100);
       setGreenTubeOneHeight(randNumber());
     }
 
-    if (greenTubePosTwo === 400) {
+    if (greenTubePosTwo === 450) {
       setTubeTwoColor("transparent");
       clearInterval(intervalIdTwo);
       setGreenTubePosTwo(-100);

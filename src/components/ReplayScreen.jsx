@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import SaveScoreModal from "./SaveScoreModal";
 
 export const Button = styled.button`
   padding: 8px;
   border: 3px solid orange;
+  width: 150px;
+  font-family: "Press Start 2P", cursive;
+  font-size: 0.6rem;
 `;
 
 export const FlexDiv = styled.div`
@@ -14,6 +18,10 @@ export const FlexDiv = styled.div`
 `;
 
 const ReplayScreen = ({ displayValue, score, replayGame }) => {
+  const [saveScreenMode, setSaveScreenMode] = useState("none");
+  function hideSaveScreen() {
+    setSaveScreenMode("none");
+  }
   return (
     <div
       style={{
@@ -35,8 +43,15 @@ const ReplayScreen = ({ displayValue, score, replayGame }) => {
         >
           {score}
         </p>
+        <Button onClick={() => setSaveScreenMode("block")}>Save Score</Button>
+        <Button>Leaderboard</Button>
         <Button onClick={replayGame}>Replay</Button>
       </FlexDiv>
+      <SaveScoreModal
+        displayValue={saveScreenMode}
+        hideSaveScreen={hideSaveScreen}
+        score={score}
+      />
     </div>
   );
 };
