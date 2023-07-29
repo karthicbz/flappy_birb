@@ -1,8 +1,23 @@
-# React + Vite
+# flappy Birb
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A flappy bird game (actually no bird only a blue rectangle with a bunch of green rectangle) clone game made with react and styled with styled components.
 
-Currently, two official plugins are available:
+# how do i play this game 😁
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+```
+# clone the repo
+
+git clone git@github.com:karthicbz/flappy_birb.git
+
+#change directory
+
+cd flappy_birb
+
+#install required modules
+
+npm install
+
+#start the dev server
+
+npm run dev
+```
