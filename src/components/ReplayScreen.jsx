@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import SaveScoreModal from "./SaveScoreModal";
+import Leaderboard from "./Leaderboard";
 
 export const Button = styled.button`
   padding: 8px;
@@ -20,12 +21,16 @@ export const FlexDiv = styled.div`
 const ReplayScreen = ({ displayValue, score, replayGame }) => {
   const [saveScreenMode, setSaveScreenMode] = useState("none");
   const [saveScoreButton, setSaveScoreButton] = useState("block");
+  const [leaderboardMode, setLeaderboardMode] = useState("none");
 
   function hideSaveScoreButton() {
     setSaveScoreButton("none");
   }
   function hideSaveScreen() {
     setSaveScreenMode("none");
+  }
+  function hideLeaderboard() {
+    setLeaderboardMode("none");
   }
   return (
     <div
@@ -54,7 +59,7 @@ const ReplayScreen = ({ displayValue, score, replayGame }) => {
         >
           Save Score
         </Button>
-        <Button>Leaderboard</Button>
+        <Button onClick={() => setLeaderboardMode("block")}>Leaderboard</Button>
         <Button onClick={replayGame}>Replay</Button>
       </FlexDiv>
       <SaveScoreModal
@@ -62,6 +67,11 @@ const ReplayScreen = ({ displayValue, score, replayGame }) => {
         hideSaveScreen={hideSaveScreen}
         score={score}
         hideSaveScoreButton={hideSaveScoreButton}
+      />
+      <Leaderboard
+        displayValue={leaderboardMode}
+        leaderboardStatus={leaderboardMode}
+        hideLeaderboard={hideLeaderboard}
       />
     </div>
   );

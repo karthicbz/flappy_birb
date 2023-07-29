@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { Button, FlexDiv } from "./ReplayScreen";
 
-const Div = styled.div`
+export const Div = styled.div`
   position: absolute;
   top: 0;
   bottom: 0;
