@@ -32,7 +32,6 @@ const SaveScoreModal = ({
       });
       const response = await scorePayload.json();
       hideSaveScreen();
-      hideSaveScoreButton();
       alert(response);
     } catch (err) {
       console.error(err);
@@ -43,14 +42,14 @@ const SaveScoreModal = ({
       <div
         className="background"
         style={{
-          backgroundColor: "rgba(135,206,235,0.9)",
+          backgroundColor: "rgba(135,206,235,1)",
           width: "100%",
           height: "100%",
         }}
       ></div>
       <FlexDiv
         className="score-form"
-        style={{ position: "absolute", top: "350px", left: "150px" }}
+        style={{ position: "absolute", top: "350px", left: "130px" }}
       >
         <input
           type="text"
