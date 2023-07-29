@@ -19,6 +19,11 @@ export const FlexDiv = styled.div`
 
 const ReplayScreen = ({ displayValue, score, replayGame }) => {
   const [saveScreenMode, setSaveScreenMode] = useState("none");
+  const [saveScoreButton, setSaveScoreButton] = useState("block");
+
+  function hideSaveScoreButton() {
+    setSaveScoreButton("none");
+  }
   function hideSaveScreen() {
     setSaveScreenMode("none");
   }
@@ -43,7 +48,12 @@ const ReplayScreen = ({ displayValue, score, replayGame }) => {
         >
           {score}
         </p>
-        <Button onClick={() => setSaveScreenMode("block")}>Save Score</Button>
+        <Button
+          onClick={() => setSaveScreenMode("block")}
+          style={{ display: saveScoreButton }}
+        >
+          Save Score
+        </Button>
         <Button>Leaderboard</Button>
         <Button onClick={replayGame}>Replay</Button>
       </FlexDiv>
@@ -51,6 +61,7 @@ const ReplayScreen = ({ displayValue, score, replayGame }) => {
         displayValue={saveScreenMode}
         hideSaveScreen={hideSaveScreen}
         score={score}
+        hideSaveScoreButton={hideSaveScoreButton}
       />
     </div>
   );
